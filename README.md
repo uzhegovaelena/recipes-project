@@ -106,3 +106,10 @@ curl --request GET \
   --header 'apikey: ***'
 ```
 
+
+## TODO
+- Implement part for favorites recipes
+- Add more fields to recipes: type, hashtag, photo and steps  
+- Implement admin API
+- Add pagination for recipes
+- Add option to filter recipes
