@@ -34,7 +34,7 @@ DB_PORT=5432
 
 ### Users
 
-#### Create new user
+#### Create a new user
 
 ```
 curl --request POST \
