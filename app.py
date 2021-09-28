@@ -21,6 +21,7 @@ async def create_app():
 
     return app
 
+
 def run_app(port):
     loop = asyncio.get_event_loop()
 

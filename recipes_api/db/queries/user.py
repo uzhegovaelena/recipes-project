@@ -53,3 +53,35 @@ async def get_apikey(db, email, password):
             apikey = user_info.get("apikey")
 
         return apikey
+
+
+# Checking the apikey in the DB
+async def check_user_apikey(db, apikey):
+    async with db.acquire() as connection:
+        user_info = await connection.fetchrow(
+            """
+            SELECT *
+            FROM users
+            WHERE apikey = $1
+            """,
+            apikey,
+        )
+
+        return bool(user_info)
+
+
+# Get information about users from the DB
+async def select_user_info(db, username):
+    user_info = None
+
+    async with db.acquire() as connection:
+        user_info = await connection.fetchrow(
+            """
+            SELECT user_id, username, status
+            FROM users
+            WHERE username = $1
+            """,
+            username,
+        )
+
+        return dict(user_info)
