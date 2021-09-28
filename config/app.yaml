@@ -1,8 +1,0 @@
-postgres:
-  database: recipes_project
-  user: recipes_user
-  password: recipes_pass
-  host: localhost
-  port: 5432
-  minsize: 1
-  maxsize: 5
