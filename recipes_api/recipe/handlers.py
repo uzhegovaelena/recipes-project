@@ -47,9 +47,8 @@ async def get_recipes(request):
 
     limit = int(request.query.get("limit", 10))
     offset = int(request.query.get("offset", 10))
-    username = request.query.get("username")
 
-    recipes = await select_recipes(db=db, limit=limit, offset=offset, username=username)
+    recipes = await select_recipes(db=db, limit=limit, offset=offset)
 
     if recipes is None:
         message = f"Sorry, recipes not found."
