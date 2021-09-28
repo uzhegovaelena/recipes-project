@@ -1,4 +1,4 @@
-from recipes_api.recipe.handlers import create_recipe
+from recipes_api.recipe.handlers import create_recipe, get_recipe_info
 from recipes_api.recipe.handlers import get_recipes
 from recipes_api.user.handlers import auth
 from recipes_api.user.handlers import create_new_user
@@ -16,3 +16,4 @@ def setup_routes(app):
     # Recipe routes
     app.router.add_post("/recipes", create_recipe)
     app.router.add_get("/recipes", get_recipes)
+    app.router.add_get("/recipes/{recipe_id}", get_recipe_info)

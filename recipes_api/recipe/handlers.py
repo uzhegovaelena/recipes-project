@@ -1,6 +1,6 @@
 from aiohttp import web
 
-from recipes_api.db.queries.recipe import add_recipe
+from recipes_api.db.queries.recipe import add_recipe, select_recipe
 from recipes_api.db.queries.recipe import select_recipes
 from recipes_api.db.queries.user import select_username_by_apikey
 from recipes_api.decorators import check_auth
@@ -47,8 +47,9 @@ async def get_recipes(request):
 
     limit = int(request.query.get("limit", 10))
     offset = int(request.query.get("offset", 10))
+    username = request.query.get("username")
 
-    recipes = await select_recipes(db, limit, offset)
+    recipes = await select_recipes(db=db, limit=limit, offset=offset, username=username)
 
     if recipes is None:
         message = f"Sorry, recipes not found."
@@ -58,5 +59,27 @@ async def get_recipes(request):
         return web.json_response(response)
 
     response["recipes"] = recipes
+
+    return web.json_response(response)
+
+
+@check_auth
+async def get_recipe_info(request):
+    response = {}
+
+    db = request.app["db"]
+
+    recipe_id = int(request.match_info["recipe_id"])
+
+    recipe = await select_recipe(db=db, recipe_id=recipe_id)
+
+    if recipe is None:
+        message = f"Sorry, recipe not found."
+
+        response["message"] = message
+
+        return web.json_response(response)
+
+    response["recipe"] = recipe
 
     return web.json_response(response)

@@ -78,11 +78,15 @@ async def select_user_info(db, username):
     async with db.acquire() as connection:
         user_info = await connection.fetchrow(
             """
-            SELECT user_id, username, status
+            SELECT user_id, users.username, users.status, count(recipes.recipe_id) AS number_of_recipes
             FROM users
-            WHERE username = $1
+                JOIN recipes
+                    ON users.username=recipes.username
+                WHERE users.status = 'active' AND users.username = $1
+                GROUP BY user_id
+                ORDER BY number_of_recipes DESC
             """,
-            username,
+            username
         )
 
         return dict(user_info)
