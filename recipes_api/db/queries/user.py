@@ -1,4 +1,5 @@
 def check_user_email_from_db(email):
+
     if email == "test@gmail.com":
         return True
     else:
@@ -85,3 +86,28 @@ async def select_user_info(db, username):
         )
 
         return dict(user_info)
+
+
+# Get information about top 10 users from the DB
+async def select_top_users(db):
+    result = []
+
+    async with db.acquire() as connection:
+        users = await connection.fetch(
+            """
+            SELECT user_id, users.username, users.status, count(title) AS number_of_recipes
+            FROM users
+                JOIN recipes
+                    ON users.username=recipes.username
+                WHERE users.status = 'active' AND recipes.status='active'
+                GROUP BY user_id
+                ORDER BY number_of_recipes DESC
+                LIMIT 10
+            """,
+            record_class=None,
+        )
+
+        for user in users:
+            result.append(dict(user))
+
+        return result

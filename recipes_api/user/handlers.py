@@ -6,7 +6,7 @@ from aiohttp import web
 
 from recipes_api.db.queries.user import (add_new_user, check_user_apikey,
                                          check_user_email_from_db, get_apikey,
-                                         select_user_info)
+                                         select_top_users, select_user_info)
 
 
 # Registration
@@ -99,5 +99,48 @@ async def get_user_info(request):
         return web.json_response(response)
 
     response["profile"] = user_info
+
+    return web.json_response(response)
+
+
+# Getting top 10 users
+async def get_top_users(request):
+    response = {}
+
+    db = request.app["db"]
+
+    apikey = request.headers.get("apikey")
+    # username = request.match_info["username"]
+
+    # TODO: check if apikey is exist in headers
+    #  if apikey param is not exist return 401 with message about required apikey
+    if apikey is None:
+        message = "Sorry, apikey not found."
+
+        response["message"] = message
+
+        return web.json_response(response, status=401)
+
+    is_valid_apikey = await check_user_apikey(db, apikey)
+
+    # TODO: check if apikey is exist in DB
+    if not is_valid_apikey:
+        message = "Sorry, user with apikey not found."
+
+        response["message"] = message
+
+        return web.json_response(response, status=401)
+
+    # TODO: switch to user info from DB by username
+    top_users = await select_top_users(db)
+
+    if top_users is None:
+        message = f"Sorry, users not found."
+
+        response["message"] = message
+
+        return web.json_response(response)
+
+    response["top_users"] = top_users
 
     return web.json_response(response)
