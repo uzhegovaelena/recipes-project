@@ -4,12 +4,15 @@ import uuid
 
 from aiohttp import web
 
-from recipes_api.db.queries.user import (add_new_user, check_user_apikey,
-                                         check_user_email_from_db, get_apikey,
-                                         select_top_users, select_user_info)
-
-
+from recipes_api.db.queries.user import add_new_user
+from recipes_api.db.queries.user import check_user_email_from_db
+from recipes_api.db.queries.user import get_apikey
+from recipes_api.db.queries.user import select_top_users
+from recipes_api.db.queries.user import select_user_info
 # Registration
+from recipes_api.decorators import check_auth
+
+
 async def create_new_user(request):
     response = {}
     message = ""
@@ -61,34 +64,15 @@ async def auth(request):
 
 
 # Getting user profile
+@check_auth
 async def get_user_info(request):
     response = {}
 
     db = request.app["db"]
 
-    apikey = request.headers.get("apikey")
     username = request.match_info["username"]
 
-    # TODO: check if apikey is exist in headers
-    #  if apikey param is not exist return 401 with message about required apikey
-    if apikey is None:
-        message = "Sorry, apikey not found."
 
-        response["message"] = message
-
-        return web.json_response(response, status=401)
-
-    is_valid_apikey = await check_user_apikey(db, apikey)
-
-    # TODO: check if apikey is exist in DB
-    if not is_valid_apikey:
-        message = "Sorry, user with apikey not found."
-
-        response["message"] = message
-
-        return web.json_response(response, status=401)
-
-    # TODO: switch to user info from DB by username
     user_info = await select_user_info(db, username)
 
     if user_info is None:
@@ -104,34 +88,12 @@ async def get_user_info(request):
 
 
 # Getting top 10 users
+@check_auth
 async def get_top_users(request):
     response = {}
 
     db = request.app["db"]
 
-    apikey = request.headers.get("apikey")
-    # username = request.match_info["username"]
-
-    # TODO: check if apikey is exist in headers
-    #  if apikey param is not exist return 401 with message about required apikey
-    if apikey is None:
-        message = "Sorry, apikey not found."
-
-        response["message"] = message
-
-        return web.json_response(response, status=401)
-
-    is_valid_apikey = await check_user_apikey(db, apikey)
-
-    # TODO: check if apikey is exist in DB
-    if not is_valid_apikey:
-        message = "Sorry, user with apikey not found."
-
-        response["message"] = message
-
-        return web.json_response(response, status=401)
-
-    # TODO: switch to user info from DB by username
     top_users = await select_top_users(db)
 
     if top_users is None:
