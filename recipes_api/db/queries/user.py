@@ -95,7 +95,7 @@ async def select_top_users(db):
     async with db.acquire() as connection:
         users = await connection.fetch(
             """
-            SELECT user_id, users.username, users.status, count(title) AS number_of_recipes
+            SELECT user_id, users.username, users.status, count(recipe_id) AS number_of_recipes
             FROM users
                 JOIN recipes
                     ON users.username=recipes.username
@@ -111,3 +111,22 @@ async def select_top_users(db):
             result.append(dict(user))
 
         return result
+
+
+# Get username
+async def select_username_by_apikey(db, apikey):
+    username = None
+
+    async with db.acquire() as connection:
+        record = await connection.fetchrow(
+            """
+            SELECT username
+            FROM users
+            WHERE apikey = $1
+            """,
+            apikey,
+        )
+
+        username = record.get("username")
+
+        return username

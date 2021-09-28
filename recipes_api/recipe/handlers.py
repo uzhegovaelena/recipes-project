@@ -1,40 +1,26 @@
 from aiohttp import web
 
 from recipes_api.db.queries.recipe import add_recipe
-from recipes_api.db.queries.user import check_user_apikey
+from recipes_api.db.queries.recipe import select_recipes
+from recipes_api.db.queries.user import select_username_by_apikey
+from recipes_api.decorators import check_auth
 
 
+@check_auth
 async def create_recipe(request):
     response = {}
     message = ""
 
     db = request.app["db"]
-    data = await request.json()
 
     apikey = request.headers.get("apikey")
 
-    # TODO: check if apikey is exist in headers
-    #  if apikey param is not exist return 401 with message about required apikey
-    if apikey is None:
-        message = "Sorry, apikey not found."
+    body = await request.json()
 
-        response["message"] = message
+    title = body.get("title")
+    description = body.get("description")
 
-        return web.json_response(response, status=401)
-
-    is_valid_apikey = await check_user_apikey(db, apikey)
-
-    # TODO: check if apikey is exist in DB
-    if not is_valid_apikey:
-        message = "Sorry, user with apikey not found."
-
-        response["message"] = message
-
-        return web.json_response(response, status=401)
-
-    username = data.get("username")
-    title = data.get("title")
-    description = data.get("description")
+    username = await select_username_by_apikey(db, apikey)
 
     recipe_id = await add_recipe(db, username, title, description)
 
@@ -49,5 +35,28 @@ async def create_recipe(request):
     response["username"] = username
     response["title"] = title
     response["description"] = description
+
+    return web.json_response(response)
+
+
+@check_auth
+async def get_recipes(request):
+    response = {}
+
+    db = request.app["db"]
+
+    limit = int(request.query.get("limit", 10))
+    offset = int(request.query.get("offset", 10))
+
+    recipes = await select_recipes(db, limit, offset)
+
+    if recipes is None:
+        message = f"Sorry, recipes not found."
+
+        response["message"] = message
+
+        return web.json_response(response)
+
+    response["recipes"] = recipes
 
     return web.json_response(response)
