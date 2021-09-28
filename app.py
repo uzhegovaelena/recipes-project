@@ -1,4 +1,5 @@
 import asyncio
+
 import asyncpg
 from aiohttp import web
 
@@ -19,3 +20,19 @@ async def create_app():
     setup_routes(app)
 
     return app
+
+def run_app(port):
+    loop = asyncio.get_event_loop()
+
+    app = loop.run_until_complete(create_app())
+
+    web.run_app(app, port=port)
+
+    try:
+        web.run_app(app)
+    except:
+        print("Something went wrong.")
+
+
+if __name__ == "__main__":
+    run_app(port=8080)

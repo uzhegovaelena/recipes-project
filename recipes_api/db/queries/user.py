@@ -32,3 +32,24 @@ async def add_new_user(db, username, email, password, apikey):
         user_id = result.get("user_id")
 
         return user_id
+
+
+# Getting the apikey for authentication
+async def get_apikey(db, email, password):
+    apikey = None
+
+    async with db.acquire() as connection:
+        user_info = await connection.fetchrow(
+            """
+            SELECT * 
+            FROM users 
+            WHERE email = $1 AND password = $2
+            """,
+            email,
+            password,
+        )
+
+        if user_info:
+            apikey = user_info.get("apikey")
+
+        return apikey
