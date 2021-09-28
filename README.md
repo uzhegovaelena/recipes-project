@@ -13,7 +13,10 @@
 
 ## Database:
 - Create Database 'recipes'
-- Make a request from the file "queries"
+- Run all SQL queries from the [file "queries"](https://github.com/uzhegovaelena/recipes-project/blob/master/files/queries.sql) (creating the necessary tables and filling with test data).
+
+
+![Link](https://github.com/uzhegovaelena/recipes-project/blob/master/files/Database%20schema.drawio.png)
 
 ## Enviroment variables: 
 ```
@@ -74,7 +77,7 @@ curl --request GET \
 
 ### Recipes
 
-#### Create new recipe
+#### Create a new recipe
 
 ```
 curl --request POST \
@@ -95,7 +98,7 @@ curl --request GET \
   --header 'apikey: ***'
 ```
 
-#### Get recipe
+#### Get a recipe
 
 ```
 curl --request GET \
