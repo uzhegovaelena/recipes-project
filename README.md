@@ -63,7 +63,7 @@ curl --request GET \
   --header 'Content-Type: application/json' \
   --data '{
   "email": "test@gmail.com",
-	"password": "test"
+  "password": "test"
 }'
 ```
 
@@ -85,7 +85,7 @@ curl --request POST \
   --header 'Content-Type: application/json' \
   --header 'apikey: ***' \
   --data '{
-  "title": "milk",
+  "title": "title",
   "description": "description"
 }'
 ```
@@ -94,7 +94,7 @@ curl --request POST \
 
 ```
 curl --request GET \
-  --url 'http://localhost:8080/recipes?limit=30&offset=0' \
+  --url 'http://localhost:8080/recipes?limit=10&offset=0' \
   --header 'apikey: ***'
 ```
 
@@ -102,7 +102,7 @@ curl --request GET \
 
 ```
 curl --request GET \
-  --url http://localhost:8080/recipes/28 \
+  --url http://localhost:8080/recipes/[recipe_id] \
   --header 'apikey: ***'
 ```
 
