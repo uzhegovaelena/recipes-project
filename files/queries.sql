@@ -50,26 +50,25 @@ VALUES
 ('ulyana', 'ulyana@gmail.com', 'ulyana', 'active', '20b2dc500-2bf6-446c-8603-bd7717826d81');
 
 
-INSERT INTO users (username, email, password, status, apikey)
+INSERT INTO recipes (username, title, description, status)
 VALUES
-('cary', 'cary@gmail.com', 'cary', 'active', '1b2dc500-2bf6-446c-8603-bd7717826d81'),
-('mark', 'mark@gmail.com', 'mark', 'active', '2b2dc500-2bf6-446c-8603-bd7717826d81'),
-('dark', 'dark@gmail.com', 'dark', 'active', '3b2dc500-2bf6-446c-8603-bd7717826d81'),
-('roy', 'roy@gmail.com', 'roy', 'active', '4b2dc500-2bf6-446c-8603-bd7717826d81'),
-('joy', 'joy@gmail.com', 'joy', 'active', '6b2dc500-2bf6-446c-8603-bd7717826d81'),
-('kate', 'kate@gmail.com', 'kate', 'active', '7b2dc500-2bf6-446c-8603-bd7717826d81'),
-('gate', 'gate@gmail.com', 'gate', 'active', '8b2dc500-2bf6-446c-8603-bd7717826d81'),
-('mat', 'mat@gmail.com', 'mat', 'active', '9b2dc500-2bf6-446c-8603-bd7717826d81'),
-('leon', 'leon@gmail.com', 'leon', 'active', '10b2dc500-2bf6-446c-8603-bd7717826d81'),
-('maks', 'maks@gmail.com', 'maks', 'active', '11b2dc500-2bf6-446c-8603-bd7717826d81'),
-('julia', 'julia@gmail.com', 'julia', 'active', '12b2dc500-2bf6-446c-8603-bd7717826d81'),
-('veronica', 'veronica@gmail.com', 'veronica', 'active', '13b2dc500-2bf6-446c-8603-bd7717826d81'),
-('oliver', 'oliver@gmail.com', 'oliver', 'active', '14b2dc500-2bf6-446c-8603-bd7717826d81'),
-('kara', 'kara@gmail.com', 'kara', 'active', '15b2dc500-2bf6-446c-8603-bd7717826d81'),
-('sebastian', 'sebastian@gmail.com', 'sebastian', 'active', '16b2dc500-2bf6-446c-8603-bd7717826d81'),
-('oleg', 'oleg@gmail.com', 'oleg', 'active', '17b2dc500-2bf6-446c-8603-bd7717826d81'),
-('olga', 'olga@gmail.com', 'olga', 'active', '18b2dc500-2bf6-446c-8603-bd7717826d81'),
-('ulyana', 'ulyana@gmail.com', 'ulyana', 'active', '20b2dc500-2bf6-446c-8603-bd7717826d81');
+('cary', 'Cake Napoleon', 'description', 'active'),
+('mark', 'Toster', 'description', 'active'),
+('kara', 'Jin', 'description', 'active'),
+('dark', 'Soup Borsch', 'description', 'active'),
+('kara', 'salad Olivie', 'description', 'active'),
+('kara', 'potato', 'description', 'active'),
+('dark', 'ratatui', 'description', 'active'),
+('dark', 'rice', 'description', 'active'),
+('kara', 'tomato juice', 'description', 'active'),
+('cary', 'Cake lol', 'description', 'active'),
+('julia', 'Cake lol', 'description', 'block'),
+('julia', 'Cake cat', 'description', 'active'),
+('julia', 'Cake turtle', 'description', 'active'),
+('maks', 'soup', 'description', 'active'),
+('oliver', 'soup', 'description', 'active'),
+('gate', 'soup', 'description', 'active'),
+('veronica', 'soup', 'description', 'block')
 
 
 
